@@ -23,12 +23,39 @@ function loadSong(song) {
     cover.src = `images/${song}.jpg`; // the cover/image of the song playing
 }
 
+function pauseSong() {
+    musicContainer.classList.remove('play');
+    playBtn.querySelector('i.fas').classList.add('fa-play');
+    playBtn.querySelector('i.fas').classList.remove('fa-pause');
+    audio.pause();
+}
+
 function playSong() {
     musicContainer.classList.add('play');
     playBtn.querySelector('i.fas').classList.remove('fa-play');
     playBtn.querySelector('i.fas').classList.add('fa-pause');
     audio.play();
 }
+
+function prevSong(){
+    songIndex--;
+
+    if(songIndex < 0) {
+        songIndex = songs.length - 1;
+    }
+    loadSong(songs[songIndex]);
+    playSong();
+}
+
+function nextSong(){
+    songIndex++;
+    if(songIndex > songs.length - 1) {
+        songIndex = 0;
+    }
+    loadSong(songs[songIndex]);
+    playSong();
+}
+
 
 // Play and pause button is the same, so:
 playBtn.addEventListener('click', () => {
@@ -39,4 +66,7 @@ playBtn.addEventListener('click', () => {
     } else {
         playSong();
     }
-})
+});
+
+prevBtn.addEventListener('click', prevSong);
+nextBtn.addEventListener('click', nextSong);
