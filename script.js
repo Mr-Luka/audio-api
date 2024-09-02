@@ -4,7 +4,7 @@ const prevBtn = document.querySelector('#prev');
 const nextBtn = document.querySelector('#next');
 const audio = document.querySelector('#audio');
 const progress = document.querySelector('#progress');
-const progressContainer = document.querySelector('#progres-container');
+const progressContainer = document.querySelector('#progress-container');
 const title = document.querySelector('#title');
 const cover = document.querySelector('#cover');
 
@@ -56,6 +56,20 @@ function nextSong(){
     playSong();
 }
 
+function updateProgress(e) {
+   const {duration, currentTime } = e.srcElement; // the audio element
+   const progressPercent = (currentTime / duration) * 100;
+   progress.style.width = `${progressPercent}%`;
+}
+
+function setProgress(e) {
+    const width = this.clientWidth; // refers to the element we called the event on
+    const clickX = e.offsetX; // the x position of the click
+    const duration = audio.duration;
+
+    audio.currentTime = (clickX / width) * duration;
+}
+
 
 // Play and pause button is the same, so:
 playBtn.addEventListener('click', () => {
@@ -70,3 +84,5 @@ playBtn.addEventListener('click', () => {
 
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
+audio.addEventListener('timeupdate', updateProgress);
+progressContainer.addEventListener('click', setProgress);
